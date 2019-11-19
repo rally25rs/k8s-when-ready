@@ -1,6 +1,10 @@
 ## k8s-when-ready
 
-This utility is designed to be used as a Kubernetes `initContainer` that will wait for another service, job, or pod to become available before exiting.
+This utility is designed to be used as a Kubernetes `initContainer` that will wait for another Service or Job to become available before exiting.
+
+The primary use for this tool would be to delay running a container until other dependency containers or jobs have run.
+
+For example waiting to start a Job to create a database until the DB server is running, or waiting to run a Ruby Rake task like `db:migrate` until a DB server is running.
 
 ## Why did you write this?
 
@@ -18,9 +22,164 @@ To circumvent this, there is a server portion that can run with it's own `Servic
 
 # Usage
 
-Normal practice would be to use the prebuilt image off DockerHub as an `initContainer`, and pass in the dependencies to wait for as parameters.
+## Server
 
-(to be defined)
+The server portion is a central process for reporting the status of services and jobs. It is made separate from the client portion so that Kubernetes Roles and ServiceAccounts can be properly provisioned to isolate access to pod information.
+
+The following yaml can be used to define the server.
+
+> Please find the latest versioned docker images from:
+>   https://hub.docker.com/repository/docker/jeffvalore/k8s-when-ready-server
+> and
+>   https://hub.docker.com/repository/docker/jeffvalore/k8s-when-ready
+> and use them in the yaml below.
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: k8s-when-ready
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: k8s-when-ready
+rules:
+- apiGroups: [""]
+  resources: ["services","pods"]
+  verbs: ["get","list"]
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["get","list"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: k8s-when-ready
+subjects:
+  - kind: ServiceAccount
+    name: k8s-when-ready
+    namespace: default
+roleRef:
+  kind: Role
+  name: k8s-when-ready
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-when-ready-server # If you change this, you will have to pass `--host={this name}` to the k8s-when-ready clients.
+  namespace: default
+  labels:
+    app: k8s-when-ready
+spec:
+  ports:
+    - port: 3000 # If you change this, you will have to pass `--port={this port}` to the k8s-when-ready clients.
+  selector:
+    app: k8s-when-ready
+  type: ClusterIP
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: k8s-when-ready-server
+  namespace: default
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: k8s-when-ready
+    spec:
+      serviceAccountName: k8s-when-ready
+      containers:
+      - name: k8s-when-ready
+        image: jeffvalore/k8s-when-ready-server:latest # PLEASE use the newest versioned release from https://hub.docker.com/repository/docker/jeffvalore/k8s-when-ready-server
+```
+
+## Client
+
+The normal practice would be to use the `jeffvalore/k8s-when-ready` image as an `initContainer` for a job or service that you want to delay running until some other services are ready.
+
+For example, if you have a Ruby on Rails project named `my-api` that you don't want to have run until your `postgres` DB is running, you could do:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-api
+  labels:
+    app: my-api
+spec:
+  selector:
+    matchLabels:
+      app: my-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cloud-services
+        tier: platform-management-api
+    spec:
+      initContainers:
+        - name: init-wait-for-db
+          image: jeffvalore/k8s-when-ready:latest # PLEASE use the newest versioned release from https://hub.docker.com/repository/docker/jeffvalore/k8s-when-ready
+          args:
+            - --type=service
+            - --namespace=my-namespace
+            - --name=postgres
+      containers:
+        - image: 123abc.dkr.ecr.us-east-2.amazonaws.com/my-api:1.2.3
+          name: platform-management-api
+          ports:
+            - containerPort: 80
+          env:
+            - name: RAILS_ENV
+              value: production
+```
+
+## Available Arguments
+
+You can pass these to the `k8s-when-ready` image using `initContainers.[].args`:
+
+```
+      initContainers:
+        - name: ...
+          image: jeffvalore/k8s-when-ready:latest
+          args:
+            - --option=value
+            ...
+```
+
+Options:
+```
+  --type           Whether to wait for a Service or a Job.
+                                          [required] [choices: "service", "job"]
+  --name           The name of the service or job to wait for.
+                                                             [string] [required]
+  --uptime         The number of seconds of uptime an item should have before
+                   considering it "running". If not specified, the default is 5
+                   seconds for Services, 0 seconds for Jobs.            [number]
+  --timeout        The duration in seconds to wait before canceling the wait.
+                   The process will exit with a non-0 exit code.
+                                                         [number] [default: 300]
+  --poll-delay     The duration in seconds to wait between each check to see if
+                   the service is running.                          [default: 1]
+  --namespace, -n  The namespace to check in.               [default: "default"]
+  --host, -h       The hostname of the k8s-when-ready-server.
+                                              [default: "k8s-when-ready-server"]
+  --port, -p       The port for the k8s-when-ready-server.     [default: "3000"]
+```
 
 # Contributing
 
