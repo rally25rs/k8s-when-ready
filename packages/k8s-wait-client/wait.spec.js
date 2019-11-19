@@ -42,4 +42,25 @@ describe('Wait', () => {
     const result = await wait(options());
     expect(result).toEqual(true);
   });
+
+  it('polls until server response running', async () => {
+    request.get.mockResolvedValueOnce({
+      running: false
+    });
+    request.get.mockResolvedValueOnce({
+      running: true
+    });
+
+    const result = await wait(options());
+    expect(result).toEqual(true);
+  });
+
+  it('returns false if server never responds running and timeout elapsed', async () => {
+    request.get.mockResolvedValue({
+      running: false
+    });
+
+    const result = await wait(options({timeout: 0.5}));
+    expect(result).toEqual(false);
+  });
 });
