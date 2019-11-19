@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Build/Publish Client Docker
-        uses: elgohr/Publish-Docker-Github-Action@2.8
+        uses: madkin10/Publish-Docker-Github-Action@master
         with:
           # The name of the image you would like to push
           name: jeffvalore/k8s-when-ready
