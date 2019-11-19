@@ -143,22 +143,6 @@ const responses = {
                 }
               ],
               'dnsPolicy': 'ClusterFirst',
-              'initContainers': [
-                {
-                  'args': [
-                    'service',
-                    'qa-postgres',
-                    '--namespace',
-                    'qa'
-                  ],
-                  'image': 'virtualhold/k8s-wait-for:latest',
-                  'imagePullPolicy': 'Always',
-                  'name': 'test-job-user',
-                  'resources': {},
-                  'terminationMessagePath': '/dev/termination-log',
-                  'terminationMessagePolicy': 'File'
-                }
-              ],
               'restartPolicy': 'Never',
               'schedulerName': 'default-scheduler',
               'securityContext': {},

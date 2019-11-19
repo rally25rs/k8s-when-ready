@@ -1,4 +1,4 @@
-## k8s-wait
+## k8s-when-ready
 
 This utility is designed to be used as a Kubernetes `initContainer` that will wait for another service, job, or pod to become available before exiting.
 
@@ -6,7 +6,7 @@ This utility is designed to be used as a Kubernetes `initContainer` that will wa
 
 The original intent was to lessen the dependency on using Helm Hooks with the `--wait` flag to delay running jobs until services were started. Using Helm in this way had some issues because it waits for _all_ pods to be running, not just certain ones that are actual dependencies.
 
-This project was heavily inspired by [groundnuty/k8s-wait-for](https://github.com/groundnuty/k8s-wait-for) but I had several issues using that script. I wanted to rewrite it in a language that could be easily unit tested. The resulting docker image for this project is larger than `k8s-wait-for` but in my opinion the easy of reading the code and the ability to rely on propper unit tests outweighs the image size.
+This project was heavily inspired by [groundnuty/k8s-wait-for](https://github.com/groundnuty/k8s-wait-for) but I had several issues using that script. I wanted to rewrite it in a language that could be easily unit tested. The resulting docker image for this project is larger than `k8s-wait-for` but in my opinion the easy of reading the code and the ability to rely on propper unit tests and separation of RBAC permissions outweighs the image size.
 
 ## Why are there 2 images? (why a client and server?)
 

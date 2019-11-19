@@ -9,7 +9,10 @@ module.exports = async function(options) {
     namespace,
     uptime,
   };
-  const url = `http://${host}:${port}/${type}/${namespace}/${name}`;
+  let url = `http://${host}:${port}/${encodeURIComponent(type)}/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`;
+  if (uptime !== undefined) {
+    url += `?uptime=${uptime}`;
+  }
   const stopPollingAt = new Date().getTime() + (timeout * 1000);
 
   while (new Date() < stopPollingAt) {
