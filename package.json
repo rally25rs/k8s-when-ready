@@ -1,0 +1,17 @@
+{
+  "name": "k8s-wait",
+  "version": "0.1.0",
+  "description": "Wait for Kubernetes pods to be availabe.",
+  "main": "index.js",
+  "author": "Jeff Valore (rally25rs)",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "yarn workspaces run test",
+    "build": "yarn workspaces run build"
+  },
+  "dependencies": {}
+}
