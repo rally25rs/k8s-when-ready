@@ -18,11 +18,9 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@2.8
         with:
           # The name of the image you would like to push
-          name: k8s-when-ready
+          name: jeffvalore/k8s-when-ready
           # The login username for the registry
           username: jeffvalore
           # The login password for the registry
           password: ${{ secrets.dockerHubPassword }}
-          # Use registry for pushing to a custom registry
-          registry: k8s-when-ready
           workdir: ./packages/k8s-when-ready-client
