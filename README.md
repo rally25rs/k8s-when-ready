@@ -1,4 +1,4 @@
-## k8s-wait
+## k8s-when-ready
 
 This utility is designed to be used as a Kubernetes `initContainer` that will wait for another service, job, or pod to become available before exiting.
 
