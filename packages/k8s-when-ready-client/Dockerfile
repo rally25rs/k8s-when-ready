@@ -9,4 +9,4 @@ RUN yarn install --production --non-interactive
 COPY . /usr/src/app
 
 EXPOSE 3000
-ENTRYPOINT ["node index.js"]
+ENTRYPOINT ["node", "index.js"]
