@@ -1,10 +1,5 @@
 FROM node:13-alpine
 
-RUN apk update
-RUN apk add curl
-
-RUN curl -o- -L https://yarnpkg.com/install.sh | sh
-
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
