@@ -1,8 +1,6 @@
 name: Unit Tests
 on:
   push:
-  release:
-    types: [published]
 
 jobs:
   build:
