@@ -14,8 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@master
       - name: Build/Publish Client Docker
-        uses: madkin10/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@master
         with:
           # The name of the image you would like to push
           name: jeffvalore/k8s-when-ready
@@ -24,3 +25,4 @@ jobs:
           # The login password for the registry
           password: ${{ secrets.dockerHubPassword }}
           workdir: k8s-wait/packages/k8s-when-ready-client
+          tag_names: true
