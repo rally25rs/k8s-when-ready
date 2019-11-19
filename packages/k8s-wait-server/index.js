@@ -13,12 +13,13 @@ app.listen(PORT, () => {
 app.get("/service/:namespace/:name", async (req, res, next) => {
   const serviceName = req.params.name;
   const namespace = req.params.namespace;
+  const uptime = req.query.uptime;
 
   console.log(`Checking status for Service ${serviceName} in namespace ${namespace}...`);
 
   try {
     res.json({
-      running: await serviceResolver.isReady(serviceName, namespace),
+      running: await serviceResolver.isReady(serviceName, namespace, uptime),
     });
   } catch (ex) {
     console.error(`Error when requesting status for Service ${serviceName}.`, ex);
@@ -32,12 +33,13 @@ app.get("/service/:namespace/:name", async (req, res, next) => {
 app.get("/job/:namespace/:name", async (req, res, next) => {
   const jobName = req.params.name;
   const namespace = req.params.namespace;
+  const uptime = req.query.uptime;
 
   console.log(`Checking status for Job ${jobName} in namespace ${namespace}...`);
 
   try {
     res.json({
-      running: await jobResolver.isReady(jobName, namespace),
+      running: await jobResolver.isReady(jobName, namespace, uptime),
     });
   } catch (ex) {
     console.error(`Error when requesting status for Job ${jobName}.`, ex);

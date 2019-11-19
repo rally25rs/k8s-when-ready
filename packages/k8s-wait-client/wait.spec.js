@@ -8,7 +8,7 @@ const wait = require('./wait');
 const defaultOptions = Object.freeze({
   type: 'service',
   name: 'test',
-  uptime: 0,
+  uptime: undefined,
   timeout: 5,
   pollDelay: 0.1,
   namespace: 'default',
@@ -62,5 +62,21 @@ describe('Wait', () => {
 
     const result = await wait(options({timeout: 0.5}));
     expect(result).toEqual(false);
+  });
+
+  it('requests from expected url when no uptime passed', async () => {
+    request.get.mockResolvedValue({
+      running: true
+    });
+    await wait(options());
+    expect(request.get).toBeCalledWith('http://server:3000/service/default/test');
+  });
+
+  it('requests from expected url when uptime passed', async () => {
+    request.get.mockResolvedValue({
+      running: true
+    });
+    await wait(options({ uptime: 5 }));
+    expect(request.get).toBeCalledWith('http://server:3000/service/default/test?uptime=5');
   });
 });
