@@ -11,12 +11,15 @@
     "build": "docker build ."
   },
   "dependencies": {
+    "express": "^4.17.1",
     "yargs": "^15.0.2"
   },
   "devDependencies": {
     "jest": "^24.9.0"
   },
   "jest": {
-    "setupFilesAfterEnv": ["../../jest.setup.js"]
+    "setupFilesAfterEnv": [
+      "../../jest.setup.js"
+    ]
   }
 }
