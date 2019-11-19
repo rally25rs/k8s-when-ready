@@ -1,5 +1,5 @@
 {
-  "name": "k8s-wait-server",
+  "name": "k8s-when-ready-server",
   "version": "0.1.0",
   "description": "Wait for Kubernetes pods to be availabe.",
   "main": "index.js",
