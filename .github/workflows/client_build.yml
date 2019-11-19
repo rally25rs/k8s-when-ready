@@ -1,0 +1,21 @@
+name: Client Build
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Build/Publish Client Docker
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: jeffvalore/k8s-when-ready
+          username: jeffvalore
+          password: ${{ secrets.dockerHubPassword }}
+          workdir: ./packages/k8s-when-ready-client
+          tag_names: true

@@ -1,0 +1,21 @@
+name: Server Build
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: Build/Publish Server Docker
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: jeffvalore/k8s-when-ready-server
+          username: jeffvalore
+          password: ${{ secrets.dockerHubPassword }}
+          workdir: ./packages/k8s-when-ready-server
+          tag_names: true
