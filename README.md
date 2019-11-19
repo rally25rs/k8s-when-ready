@@ -51,7 +51,7 @@ rules:
   resources: ["services","pods"]
   verbs: ["get","list"]
 - apiGroups: ["batch"]
-  resources: ["jobs"]
+  resources: ["jobs/status"]
   verbs: ["get","list"]
 
 ---
