@@ -23,4 +23,4 @@ jobs:
           username: jeffvalore
           # The login password for the registry
           password: ${{ secrets.dockerHubPassword }}
-          workdir: packages/k8s-when-ready-client
+          workdir: k8s-wait/packages/k8s-when-ready-client
