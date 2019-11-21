@@ -6,6 +6,8 @@ The primary use for this tool would be to delay running a container until other 
 
 For example waiting to start a Job to create a database until the DB server is running, or waiting to run a Ruby Rake task like `db:migrate` until a DB server is running.
 
+![k8s-when-ready topology](https://raw.githubusercontent.com/rally25rs/k8s-when-ready/master/docs/k8s-when-ready-topology.jpg)
+
 ## Why did you write this?
 
 The original intent was to lessen the dependency on using Helm Hooks with the `--wait` flag to delay running jobs until services were started. Using Helm in this way had some issues because it waits for _all_ pods to be running, not just certain ones that are actual dependencies.
