@@ -204,10 +204,14 @@ yarn build
 
 To cut a new version:
 ```
-./scripts/publish.sh {next version number}
+./scripts/version.sh {next version number}
 ```
 for example:
 ```
-./scripts/publish.sh 1.2.3
+./scripts/version.sh 1.2.3
 ```
-will build docker images with the version number as the label, update `package.json` to the version, and make a `git` commit and tag with this version number.
+will build update `package.json` of all packages in the monorepo to the version, and make a `git` commit and tag with this version number.
+
+GitHub actions will also run the unit tests when a push is detected.
+
+To publish the docker images, create a new "Release" in GitHub using this version tag.
