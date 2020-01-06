@@ -1,5 +1,7 @@
 ## k8s-when-ready
 
+![](https://github.com/rally25rs/k8s-when-ready/workflows/Unit%20Tests/badge.svg)
+
 This utility is designed to be used as a Kubernetes `initContainer` that will wait for another Service or Job to become available before exiting.
 
 The primary use for this tool would be to delay running a container until other dependency containers or jobs have run.
@@ -131,7 +133,7 @@ spec:
     metadata:
       labels:
         app: cloud-services
-        tier: platform-management-api
+        tier: my-api
     spec:
       initContainers:
         - name: init-wait-for-db
@@ -142,7 +144,7 @@ spec:
             - --name=postgres
       containers:
         - image: 123abc.dkr.ecr.us-east-2.amazonaws.com/my-api:1.2.3
-          name: platform-management-api
+          name: my-api
           ports:
             - containerPort: 80
           env:
