@@ -6,12 +6,12 @@
   "author": "Jeff Valore (rally25rs)",
   "license": "MIT",
   "private": true,
+  "packageManager": "yarn@4.0.2",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "test": "yarn workspaces run test",
-    "build": "yarn workspaces run build"
-  },
-  "dependencies": {}
+    "test": "yarn workspaces foreach -A run test",
+    "build": "yarn workspaces foreach -A run build"
+  }
 }
