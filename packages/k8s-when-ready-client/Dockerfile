@@ -1,10 +1,11 @@
-FROM node:13-alpine
+FROM node:20-alpine
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY package.json /usr/src/app
-RUN yarn install --production --non-interactive
+RUN corepack enable
+RUN yarn workspaces focus --production
 
 COPY . /usr/src/app
 

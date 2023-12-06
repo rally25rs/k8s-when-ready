@@ -1,6 +1,6 @@
 {
   "name": "k8s-when-ready-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Wait for Kubernetes pods to be availabe.",
   "main": "index.js",
   "author": "Jeff Valore (rally25rs)",
@@ -11,10 +11,10 @@
     "build": "docker build ."
   },
   "dependencies": {
-    "yargs": "^15.0.2"
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "jest": "^24.9.0"
+    "jest": "^29.7.0"
   },
   "jest": {
     "setupFilesAfterEnv": [
