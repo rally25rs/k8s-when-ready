@@ -187,7 +187,12 @@ Options:
 
 # Contributing
 
-This project is built as a `yarn` monorepo.
+This project is built as a `yarn` monorepo and uses yarn "modern".
+
+Set up `yarn` by enabling nodejs `corepack` (requires nodejs v16+)
+```
+corepack enable
+```
 
 To install dependencies:
 ```

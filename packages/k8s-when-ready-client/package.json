@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "Jeff Valore (rally25rs)",
   "license": "MIT",
-  "private": false,
+  "packageManager": "yarn@4.0.2",
   "scripts": {
     "test": "jest",
     "build": "docker build ."
