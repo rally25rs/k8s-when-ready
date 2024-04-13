@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 
 COPY package.json /usr/src/app
 RUN corepack enable
-RUN yarn workspaces focus --production
+RUN yarn install --production=true
 
 COPY . /usr/src/app
 

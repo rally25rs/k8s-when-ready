@@ -1,11 +1,11 @@
 {
   "name": "k8s-when-ready-client",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Wait for Kubernetes pods to be availabe.",
   "main": "index.js",
   "author": "Jeff Valore (rally25rs)",
   "license": "MIT",
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "test": "jest",
     "build": "docker build ."
