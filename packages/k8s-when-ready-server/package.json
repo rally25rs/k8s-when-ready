@@ -8,7 +8,7 @@
   "packageManager": "yarn@4.0.2",
   "scripts": {
     "test": "jest",
-    "build": "docker build ."
+    "build": "docker build . -t k8s-when-ready-server:latest"
   },
   "dependencies": {
     "@kubernetes/client-node": "^0.20.0",

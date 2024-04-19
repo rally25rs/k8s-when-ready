@@ -10,4 +10,4 @@ RUN yarn workspaces focus --production
 COPY . /usr/src/app
 
 EXPOSE 3000
-ENTRYPOINT ["node", "index.js"]
+ENTRYPOINT ["yarn", "node", "index.js"]
