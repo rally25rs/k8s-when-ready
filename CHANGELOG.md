@@ -1,8 +1,8 @@
-## Next Release
+## v0.2.1
 
 - Fix #29 - Use `yarn` to start `node` in Docker image, so `yarn` can bootstrap `node` to load PnP dependencies.
 
-## v0.2.0
+## v0.2.0 (this version is broken. use v0.2.1 instead.)
 
 - Upgrade yarn from classic `v1` to modern `v4.0.2` (Used locally for build and test)
 - Upgrade yarn from classic `v1` to modern `v4.0.2` (Used in deployed Docker images)
